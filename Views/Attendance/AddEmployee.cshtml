@@ -1,0 +1,33 @@
+﻿@model EmployeeAttendanceApp.Models.Employee
+
+@{
+    ViewData["Title"] = "Register New Employee";
+}
+
+<div class="container mt-5" style="max-width: 500px;">
+    <div class="card shadow border-0">
+        <div class="card-header bg-primary text-white py-3 fw-bold">Add New Employee Profile</div>
+        <div class="card-body p-4">
+            <form asp-action="AddEmployee" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger small mb-2"></div>
+
+                <div class="mb-3">
+                    <label asp-for="FirstName" class="form-label fw-semibold"></label>
+                    <input asp-for="FirstName" class="form-control" placeholder="e.g. Juan" required autocomplete="off" />
+                    <span asp-validation-for="FirstName" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="LastName" class="form-label fw-semibold"></label>
+                    <input asp-for="LastName" class="form-control" placeholder="e.g. Dela Cruz" required autocomplete="off" />
+                    <span asp-validation-for="LastName" class="text-danger small"></span>
+                </div>
+
+                <div class="d-flex justify-content-between mt-4">
+                    <a asp-action="History" class="btn btn-outline-secondary">Back to Reports</a>
+                    <button type="submit" class="btn btn-primary px-4 fw-bold">Save Profile</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

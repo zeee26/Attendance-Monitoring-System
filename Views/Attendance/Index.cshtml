@@ -1,0 +1,84 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+@* <div class="container mt-5 text-center" style="max-width: 600px;"> *@ @*Width for the clock*@
+<div class="container mt-5 text-center" style="max-width: 1000px;">
+    <!-- Greeting Banner -->
+    <h1 class="fs-2 fw-bold text-primary mb-1">Magandang Araw!</h1>
+    @* <p class="text-muted mb-4">Please log your attendance shift below</p> *@
+    <br />
+    <!-- Real-Time Visual Digital Clock Card -->
+    <div class="card shadow-sm border-0 bg-dark text-white p-4 mb-4">
+        <div id="liveClock" class="display-3 fw-bold tracking-wide" style="font-family: monospace;">00:00:00 AM</div>
+        <div id="liveDate" class="text-secondary mt-1 text-uppercase fw-semibold small">Loading Date...</div>
+    </div>
+
+    <!-- System Status Toast Messages -->
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-success border-0 shadow-sm">@TempData["Message"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger border-0 shadow-sm">@TempData["Error"]</div>
+    }
+
+    <!-- Shift Access Logging Input Console -->
+    <div class="card shadow border-0 card-body p-4 text-start mb-4">
+        <!-- Check-In/Out Action Form -->
+        <form id="attendanceForm" method="post">
+            @Html.AntiForgeryToken()
+            <div class="mb-4 text-center">
+                <label for="employeeId" class="form-label text-muted small fw-bold text-uppercase tracking-wider">Enter your Employee ID here</label>
+                @* <input type="number" id="employeeId" name="employeeId"
+                       class="form-control form-control-lg text-center fw-bold fs-2 shadow-sm"
+                       placeholder="e.g. 1001" required autofocus min="1" autocomplete="off" /> *@
+                <input type="text" id="employeeId" name="employeeId" inputmode="numeric" pattern="[0-9]*" class="form-control form-control-lg text-center fw-bold fs-2 shadow-sm" placeholder="e.g. 1001" required autofocus autocomplete="off" />
+            </div>
+
+            <div class="row g-3">
+                <div class="col-6">
+                    <button type="submit" onclick="setFormAction('CheckIn')" class="btn btn-success btn-lg w-100 py-3 shadow-sm fw-bold fs-5">Log In</button>
+                </div>
+                <div class="col-6">
+                    <button type="submit" onclick="setFormAction('CheckOut')" class="btn btn-danger btn-lg w-100 py-3 shadow-sm fw-bold fs-5">Log Out</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- ADDED: Admin Navigation Entry Link -->
+    <div class="text-center mt-3">
+        <a asp-controller="Attendance" asp-action="History" class="btn btn-dark px-4 py-2 shadow-sm border-0">Admin Page</a>
+    </div>
+</div>
+
+<!-- JavaScript Live Clock Engine Engine -->
+@section Scripts {
+    <script>
+        // Dynamically changes form target endpoint depending on which button is clicked
+        function setFormAction(actionName) {
+            const form = document.getElementById('attendanceForm');
+            form.action = '/Attendance/' + actionName;
+        }
+
+        // JavaScript Live Clock Engine Engine
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12;
+            const formattedHours = String(hours).padStart(2, '0');
+
+            document.getElementById('liveClock').textContent = `${formattedHours}:${minutes}:${seconds} ${ampm}`;
+
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('liveDate').textContent = now.toLocaleDateString('en-US', options);
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+}

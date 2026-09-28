@@ -1,0 +1,59 @@
+﻿@* @model ErrorViewModel
+@{
+    ViewData["Title"] = "Error";
+}
+
+<h1 class="text-danger">Error.</h1>
+<h2 class="text-danger">An error occurred while processing your request.</h2>
+
+@if (Model.ShowRequestId)
+{
+    <p>
+        <strong>Request ID:</strong> <code>@Model.RequestId</code>
+    </p>
+}
+
+<h3>Development Mode</h3>
+<p>
+    Swapping to <strong>Development</strong> environment will display more detailed information about the error that occurred.
+</p>
+<p>
+    <strong>The Development environment shouldn't be enabled for deployed applications.</strong>
+    It can result in displaying sensitive information from exceptions to end users.
+    For local debugging, enable the <strong>Development</strong> environment by setting the <strong>ASPNETCORE_ENVIRONMENT</strong> environment variable to <strong>Development</strong>
+    and restarting the app.
+</p> *@
+@model ErrorViewModel
+@{
+    ViewData["Title"] = "System Error Notification";
+}
+
+<div class="container mt-5 text-center" style="max-width: 550px;">
+    <!-- Warning Icon & Header -->
+    <div class="text-danger mb-4">
+        <span style="font-size: 5rem;">⚠️</span>
+    </div>
+    <h1 class="text-danger fw-bold fs-2 mb-2">System Interruption Occurred</h1>
+    <p class="text-muted mb-4">The application encountered a brief connectivity issue or structural mismatch while processing your tracking request.</p>
+
+    <!-- Context Details (Optional Debug Information) -->
+    @if (Model?.ShowRequestId == true)
+    {
+        <div class="card bg-light border-0 p-3 mb-4 text-start">
+            <span class="text-muted small fw-bold text-uppercase tracking-wider">Tracking Reference:</span>
+            <code class="text-dark font-monospace break-all">@Model.RequestId</code>
+        </div>
+    }
+
+    <!-- 🎯 THE FIX: "Go Back to Kiosk Terminal" Navigation Button Anchor -->
+    <div class="d-grid gap-2">
+        <a asp-controller="Attendance" asp-action="Index" class="btn btn-primary btn-lg py-3 fw-bold shadow-sm rounded-3">
+            Return to Home page
+        </a>
+    </div>
+
+    <!-- Footnote Notice Section -->
+    <p class="text-muted small mt-4 text-center">
+        If this warning persists, please contact your systems administrator to check your LocalDB state.
+    </p>
+</div>

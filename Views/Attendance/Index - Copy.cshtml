@@ -1,0 +1,126 @@
+﻿@* @model IEnumerable<EmployeeAttendanceApp.Models.Attendance> *@
+@model IEnumerable<ZMAttendanceMonitoring.Models.Attendance>
+
+@{
+    ViewData["Title"] = "Attendance Terminal";
+}
+
+<div class="container mt-4">
+    @* <h2 class="text-center mb-4">⏱️ Employee Attendance Monitoring</h2> *@
+    <div class="d-flex align-items-center mb-4">
+        <div style="flex: 1;"></div>
+        <h2 class="text-center mb-0">⏱️ Employee Attendance Monitoring</h2>
+        <div class="text-end" style="flex: 1;">
+            <a asp-controller="Attendance" asp-action="History" class="btn btn-dark">🛠️ Admin History Portal</a>
+        </div>
+    </div>
+
+
+    <!-- Check-In Module -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title">Log Your Shift</h5>
+            <form asp-action="CheckIn" method="post" class="row g-3 align-items-center">
+                <div class="col-sm-8">
+                    <input type="text" name="employeeName" class="form-control" placeholder="Enter Full Name" required />
+                </div>
+                <div class="col-sm-4">
+                    <button type="submit" class="btn btn-success w-100">📥 Check In</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Active Dashboard -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white">Today's Attendance Logs</div>
+        <div class="table-responsive">
+            <table class="table table-striped align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Employee Name</th>
+                        <th>Date</th>
+                        <th>Check-In</th>
+                        <th>Check-Out</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!Model.Any())
+                    {
+                        <tr>
+                            <td colspan="5" class="text-center text-muted py-3">No shifts logged today yet.</td>
+                        </tr>
+                    }
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            @* <td><strong>@item.EmployeeName</strong></td> *@
+                            <!-- FIXED: Safely printing the related employee FullName -->
+                            <td>
+                                <strong>@(item.Employee != null ? item.Employee.FullName : "Unknown Employee")</strong>
+                            </td>
+                            <td>@item.Date.ToShortDateString()</td>
+                            <td><span class="badge bg-info text-dark">@item.CheckInTime?.ToString("hh:mm tt")</span></td>
+                            <td>
+                                @if (item.CheckOutTime != null)
+                                {
+                                    <span class="badge bg-secondary">@item.CheckOutTime?.ToString("hh:mm tt")</span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted small">Active Shift</span>
+                                }
+                            </td>
+                            <td>
+                                @if (item.CheckOutTime == null)
+                                {
+                                    <form asp-action="CheckOut" method="post" style="display:inline;">
+                                        <input type="hidden" name="id" value="@item.Id" />
+                                        <button type="submit" class="btn btn-danger btn-sm">📤 Check Out</button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-sm btn-outline-success" disabled>Completed</button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Pagination Controls Navigation Bar -->
+    @if ((int)ViewData["TotalPages"] > 1)
+    {
+        <nav aria-label="Attendance log navigation" class="mt-3">
+            <ul class="pagination justify-content-center">
+
+                <!-- Previous Page Button Link -->
+                <li class="page-item @((int)ViewData["CurrentPage"] == 1 ? "disabled" : "")">
+                    <a class="page-item-link page-link" asp-action="Index" asp-route-page="@((int)ViewData["CurrentPage"] - 1)">
+                        Previous
+                    </a>
+                </li>
+
+                <!-- Page Number Indicators Loop -->
+                @for (int i = 1; i <= (int)ViewData["TotalPages"]; i++)
+                {
+                    <li class="page-item @(i == (int)ViewData["CurrentPage"] ? "active" : "")">
+                        <a class="page-link" asp-action="Index" asp-route-page="@i">@i</a>
+                    </li>
+                }
+
+                <!-- Next Page Button Link -->
+                <li class="page-item @((int)ViewData["CurrentPage"] == (int)ViewData["TotalPages"] ? "disabled" : "")">
+                    <a class="page-item-link page-link" asp-action="Index" asp-route-page="@((int)ViewData["CurrentPage"] + 1)">
+                        Next
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+    }
+</div>

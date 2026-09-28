@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Admin Verification";
+}
+<div class="container mt-5" style="max-width: 400px;">
+    <div class="card shadow">
+        <div class="card-header bg-dark text-white text-center">🔐 Admin Access Gate</div>
+        <div class="card-body">
+            <form asp-action="Login" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger small mb-2"></div>
+                <div class="mb-3">
+                    <label class="form-label font-weight-bold">Enter Admin Password:</label>
+                    <input type="password" name="password" class="form-control" placeholder="••••••••" required autofocus />
+                </div>
+                <button type="submit" class="btn btn-dark w-100">Unlock Dashboard</button>
+            </form>
+        </div>
+    </div>
+</div>
