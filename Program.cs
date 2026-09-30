@@ -8,9 +8,20 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// Register DbContext with LocalDB Connection String
+// 1. Try to read from appsettings.json or Azure standard injection
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+// 2. If it's null or completely empty, fall back directly to the Environment Variable
+if (string.IsNullOrEmpty(connectionString))
+{
+    connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection") 
+                       ?? Environment.GetEnvironmentVariable("SQLCONNSTR_DefaultConnection");
+}
+
+// Register DbContext with the resolved string
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(connectionString));
+
 
 // Add Cookie Authentication services
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
