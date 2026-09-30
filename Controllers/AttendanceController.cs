@@ -25,7 +25,7 @@ namespace EmployeeAttendanceApp.Controllers
         }
 
         //Dashboard displaying today's attendance logs
-        public async Task<IActionResult> Index(int? page)
+        public IActionResult Index(int? page)
         {
 
             // ENFORCE LOGOUT: Redirect logged-in admins back to the History portal

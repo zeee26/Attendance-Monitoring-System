@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ZMAttendanceMonitoring")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f14847ef1fc3b654286214793edf405f78384aa0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+873bf8d7381b4bae42b9b020b639fe18a9f1b67e")]
 [assembly: System.Reflection.AssemblyProductAttribute("ZMAttendanceMonitoring")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ZMAttendanceMonitoring")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

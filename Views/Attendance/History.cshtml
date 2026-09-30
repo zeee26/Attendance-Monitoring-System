@@ -22,7 +22,7 @@
                             <input type="date" id="filterDate" name="filterDate" value="@ViewData["SelectedDate"]" class="form-control" />
                         </div>
                         <div class="col-md-4">
-                            <button type="submit" class="btn btn-primary w-100">🔍 Generate Report</button>
+                            <button type="submit" class="btn btn-primary w-100">Generate Report</button>
                         </div>
                     </form>
                 </div>
@@ -32,7 +32,7 @@
                     <a asp-action="ExportToCsv"
                        asp-route-filterDate="@ViewData["SelectedDate"]"
                        class="btn btn-success w-100">
-                        📥 Download report (.CSV)
+                        Download report (.CSV)
                     </a>
                 </div>
             </div>

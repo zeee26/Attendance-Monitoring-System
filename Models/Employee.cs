@@ -16,7 +16,7 @@ namespace EmployeeAttendanceApp.Models
         [Display(Name = "Last Name")]
         public string LastName { get; set; } = string.Empty;
 
-        // Helper property for easier display in dropdowns
+        // Helper
         public string FullName => $"{FirstName} {LastName}";
     }
 }
