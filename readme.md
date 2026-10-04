@@ -1,4 +1,5 @@
 # ZM Attendance Monitoring System
+# Published: http://zmattendancemonitoringsystem.runasp.net/Home
 
 ## 📄 Title
 **ZMAttendanceMonitoring** — Modern, High-Performance Employee Attendance Logging Kiosk Terminal.
@@ -125,15 +126,31 @@ Centralized conventional routing maps configured inside `Program.cs` handle clea
 ```csharp
 // Location: Program.cs
 app.MapControllerRoute(
+    name: "home_explicit",
+    pattern: "Home",
+    defaults: new { controller = "Attendance", action = "Index" });
+
+// Admin
+app.MapControllerRoute(
     name: "admin",
     pattern: "Admin",
     defaults: new { controller = "Attendance", action = "History" });
 
+// Error
 app.MapControllerRoute(
     name: "error",
     pattern: "Error",
+    //defaults: new { controller = "Home", action = "Error" });
     defaults: new { controller = "Attendance", action = "Error" });
 
+// Privacy
+app.MapControllerRoute(
+    name: "privacy_policy",
+    pattern: "PrivacyPolicy",
+    //defaults: new { controller = "Home", action = "Error" });
+    defaults: new { controller = "Attendance", action = "PrivacyPolicy" });
+
+// Global default
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Attendance}/{action=Index}/{id?}");
@@ -142,7 +159,7 @@ app.MapControllerRoute(
 ---
 
 ## 👥 Contributors
-*   **Lead Software Architect & Developer:** [Your Name / Organization]
+*   **Lead Software Architect & Developer:** Zarah Marie T. Moran
 *   **AI Collaborator:** ChatGPT Architecture Engine
 
 ---
